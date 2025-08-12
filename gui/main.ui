@@ -1,0 +1,643 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>985</width>
+    <height>700</height>
+   </rect>
+  </property>
+
+  <property name="windowTitle">
+   <string>Battery tester</string>
+  </property>
+
+  <widget class="QWidget" name="centralwidget">
+   <layout class="QGridLayout" name="gridLayout">
+    <item row="0" column="0">
+     <widget class="QTabWidget" name="tabs">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="currentIndex">
+       <number>0</number>
+      </property>
+      <widget class="QWidget" name="tab1">
+       <attribute name="title">
+        <string>Main</string>
+       </attribute>
+       <layout class="QHBoxLayout" name="horizontalLayout_2">
+
+        <!-- plot placeholder -->
+        <item>
+         <widget class="QWidget" name="plot_placeholder" native="true">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="MinimumExpanding" vsizetype="Expanding">
+            <horstretch>9</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>600</width>
+            <height>400</height>
+           </size>
+          </property>
+         </widget>
+        </item>
+
+        <!-- right sidebar -->
+        <item>
+         <layout class="QVBoxLayout" name="controlsLayout">
+
+          <!-- settings block -->
+          <item>
+           <widget class="QGroupBox" name="ranges">
+            <property name="title">
+             <string>Settings</string>
+            </property>
+            <layout class="QFormLayout" name="formLayout">
+             <property name="fieldGrowthPolicy">
+              <enum>QFormLayout::FieldsStayAtSizeHint</enum>
+             </property>
+             <property name="labelAlignment">
+              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+             </property>
+
+             <!-- voltage -->
+             <item row="0" column="0">
+              <widget class="QLabel" name="label">
+               <property name="text">
+                <string>Voltage</string>
+               </property>
+              </widget>
+             </item>
+             <item row="0" column="1">
+              <widget class="QDoubleSpinBox" name="set_voltage">
+               <property name="minimumSize">
+                <size>
+                 <width>90</width>
+                 <height>0</height>
+                </size>
+               </property>
+               <property name="baseSize">
+                <size>
+                 <width>90</width>
+                 <height>0</height>
+                </size>
+               </property>
+               <property name="prefix">
+                <string/>
+               </property>
+               <property name="suffix">
+                <string> V</string>
+               </property>
+               <property name="singleStep">
+                <double>0.100000000000000</double>
+               </property>
+               <property name="stepType">
+                <enum>QAbstractSpinBox::AdaptiveDecimalStepType</enum>
+               </property>
+              </widget>
+             </item>
+
+             <!-- current -->
+             <item row="1" column="0">
+              <widget class="QLabel" name="label_2">
+               <property name="text">
+                <string>Current</string>
+               </property>
+              </widget>
+             </item>
+             <item row="1" column="1">
+              <widget class="QDoubleSpinBox" name="set_current">
+               <property name="minimumSize">
+                <size>
+                 <width>90</width>
+                 <height>0</height>
+                </size>
+               </property>
+               <property name="baseSize">
+                <size>
+                 <width>90</width>
+                 <height>0</height>
+                </size>
+               </property>
+               <property name="suffix">
+                <string> A</string>
+               </property>
+               <property name="singleStep">
+                <double>0.100000000000000</double>
+               </property>
+               <property name="stepType">
+                <enum>QAbstractSpinBox::AdaptiveDecimalStepType</enum>
+               </property>
+              </widget>
+             </item>
+
+             <!-- timer -->
+             <item row="2" column="0">
+              <widget class="QLabel" name="label_7">
+               <property name="text">
+                <string>Timer</string>
+               </property>
+              </widget>
+             </item>
+             <item row="2" column="1">
+              <widget class="QTimeEdit" name="set_timer">
+               <property name="enabled">
+                <bool>true</bool>
+               </property>
+               <property name="minimumSize">
+                <size>
+                 <width>90</width>
+                 <height>0</height>
+                </size>
+               </property>
+               <property name="baseSize">
+                <size>
+                 <width>90</width>
+                 <height>0</height>
+                </size>
+               </property>
+               <property name="currentSection">
+                <enum>QDateTimeEdit::HourSection</enum>
+               </property>
+               <property name="displayFormat">
+                <string>h:mm:ss</string>
+               </property>
+              </widget>
+             </item>
+
+             <!-- cell label -->
+             <item row="3" column="0">
+              <widget class="QLabel" name="label_8">
+               <property name="text">
+                <string>Label</string>
+               </property>
+              </widget>
+             </item>
+             <item row="3" column="1">
+              <widget class="QLineEdit" name="cellLabel">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="minimumSize">
+                <size>
+                 <width>90</width>
+                 <height>0</height>
+                </size>
+               </property>
+               <property name="baseSize">
+                <size>
+                 <width>90</width>
+                 <height>0</height>
+                </size>
+               </property>
+               <property name="text">
+                <string>B1</string>
+               </property>
+               <property name="maxLength">
+                <number>20</number>
+               </property>
+              </widget>
+             </item>
+
+             <!-- load enabled -->
+             <item row="4" column="0">
+              <widget class="QLabel" name="label_10">
+               <property name="text">
+                <string>Load</string>
+               </property>
+              </widget>
+             </item>
+             <item row="4" column="1">
+              <widget class="QCheckBox" name="en_checkbox">
+               <property name="text">
+                <string>Enabled</string>
+               </property>
+              </widget>
+             </item>
+
+            </layout>
+           </widget>
+          </item>
+
+          <!-- graphs block -->
+          <item>
+           <widget class="QGroupBox" name="enabledgraphs">
+            <property name="title">
+             <string>Additional graphs</string>
+            </property>
+            <layout class="QFormLayout" name="formLayout">
+             <property name="fieldGrowthPolicy">
+              <enum>QFormLayout::FieldsStayAtSizeHint</enum>
+             </property>
+             <property name="labelAlignment">
+              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+             </property>
+             
+             <item row="2" column="0">
+              <widget class="QCheckBox" name="checkbox_p">
+               <property name="text">
+                <string>Power</string>
+               </property>
+               <property name="checked">
+                <bool>true</bool>
+               </property>
+              </widget>
+             </item>
+
+             <item row="3" column="0">
+              <widget class="QCheckBox" name="checkbox_t">
+               <property name="text">
+                <string>MOSFET Temperature</string>
+               </property>
+               <property name="checked">
+                <bool>true</bool>
+               </property>
+              </widget>
+             </item>
+
+            </layout>
+           </widget>
+          </item>
+
+          <!-- readings block -->
+          <item>
+           <widget class="QGroupBox" name="groupBox">
+            <property name="title">
+             <string>Readings</string>
+            </property>
+            <layout class="QFormLayout" name="formLayout_2">
+             <property name="fieldGrowthPolicy">
+              <enum>QFormLayout::AllNonFixedFieldsGrow</enum>
+             </property>
+
+             <item row="0" column="0">
+              <widget class="QLabel" name="label_3">
+               <property name="text">
+                <string>Voltage</string>
+               </property>
+              </widget>
+             </item>
+             <item row="0" column="1">
+              <widget class="QLabel" name="readVoltage">
+               <property name="palette">
+                <palette>
+                 <active>
+                  <colorrole role="WindowText">
+                   <brush brushstyle="SolidPattern">
+                    <color alpha="255">
+                     <red>255</red>
+                     <green>255</green>
+                     <blue>255</blue>
+                    </color>
+                   </brush>
+                  </colorrole>
+                 </active>
+                 <inactive>
+                  <colorrole role="WindowText">
+                   <brush brushstyle="SolidPattern">
+                    <color alpha="255">
+                     <red>255</red>
+                     <green>255</green>
+                     <blue>255</blue>
+                    </color>
+                   </brush>
+                  </colorrole>
+                 </inactive>
+                 <disabled>
+                  <colorrole role="WindowText">
+                   <brush brushstyle="SolidPattern">
+                    <color alpha="255">
+                     <red>160</red>
+                     <green>162</green>
+                     <blue>162</blue>
+                    </color>
+                   </brush>
+                  </colorrole>
+                 </disabled>
+                </palette>
+               </property>
+               <property name="font">
+                <font>
+                 <pointsize>16</pointsize>
+                </font>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">border-radius:0.4em;border:1px solid #0000fa; background:#0000fa;</string>
+               </property>
+               <property name="text">
+                <string>&lt;pre&gt;0.000 V&lt;/pre&gt;</string>
+               </property>
+               <property name="alignment">
+                <set>Qt::AlignCenter</set>
+               </property>
+              </widget>
+             </item>
+
+             <item row="1" column="0">
+              <widget class="QLabel" name="readCurrentLabel">
+               <property name="text">
+                <string>Current</string>
+               </property>
+              </widget>
+             </item>
+             <item row="1" column="1">
+              <widget class="QLabel" name="readCurrent">
+               <property name="palette">
+                <palette>
+                 <active>
+                  <colorrole role="WindowText">
+                   <brush brushstyle="SolidPattern">
+                    <color alpha="255">
+                     <red>255</red>
+                     <green>255</green>
+                     <blue>255</blue>
+                    </color>
+                   </brush>
+                  </colorrole>
+                 </active>
+                 <inactive>
+                  <colorrole role="WindowText">
+                   <brush brushstyle="SolidPattern">
+                    <color alpha="255">
+                     <red>255</red>
+                     <green>255</green>
+                     <blue>255</blue>
+                    </color>
+                   </brush>
+                  </colorrole>
+                 </inactive>
+                 <disabled>
+                  <colorrole role="WindowText">
+                   <brush brushstyle="SolidPattern">
+                    <color alpha="255">
+                     <red>255</red>
+                     <green>255</green>
+                     <blue>255</blue>
+                    </color>
+                   </brush>
+                  </colorrole>
+                 </disabled>
+                </palette>
+               </property>
+               <property name="font">
+                <font>
+                 <pointsize>16</pointsize>
+                </font>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">border-radius:0.4em;border:1px solid #fa0000; background:#fa0000;</string>
+               </property>
+               <property name="text">
+                <string>&lt;pre&gt;0.000 A&lt;/pre&gt;</string>
+               </property>
+               <property name="alignment">
+                <set>Qt::AlignCenter</set>
+               </property>
+              </widget>
+             </item>
+
+             <item row="2" column="1">
+              <widget class="QLabel" name="Wattage">
+               <property name="palette">
+                <palette>
+                 <active>
+                  <colorrole role="WindowText">
+                   <brush brushstyle="SolidPattern">
+                    <color alpha="255">
+                     <red>255</red>
+                     <green>255</green>
+                     <blue>255</blue>
+                    </color>
+                   </brush>
+                  </colorrole>
+                 </active>
+                 <inactive>
+                  <colorrole role="WindowText">
+                   <brush brushstyle="SolidPattern">
+                    <color alpha="255">
+                     <red>255</red>
+                     <green>255</green>
+                     <blue>255</blue>
+                    </color>
+                   </brush>
+                  </colorrole>
+                 </inactive>
+                 <disabled>
+                  <colorrole role="WindowText">
+                   <brush brushstyle="SolidPattern">
+                    <color alpha="255">
+                     <red>255</red>
+                     <green>255</green>
+                     <blue>255</blue>
+                    </color>
+                   </brush>
+                  </colorrole>
+                 </disabled>
+                </palette>
+               </property>
+               <property name="font">
+                <font>
+                 <pointsize>16</pointsize>
+                </font>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">border-radius:0.4em;border:1px solid #008000; background:#008000;</string>
+               </property>
+               <property name="text">
+                <string>&lt;pre&gt;0.000 W&lt;/pre&gt;</string>
+               </property>
+               <property name="alignment">
+                <set>Qt::AlignCenter</set>
+               </property>
+              </widget>
+             </item>
+
+             <item row="2" column="0">
+              <widget class="QLabel" name="label_12">
+               <property name="text">
+                <string>Power</string>
+               </property>
+              </widget>
+             </item>
+             
+             <item row="3" column="1">
+              <widget class="QLabel" name="readTemp">
+               <property name="palette">
+                <palette>
+                 <active>
+                  <colorrole role="WindowText">
+                   <brush brushstyle="SolidPattern">
+                    <color alpha="255">
+                     <red>255</red>
+                     <green>255</green>
+                     <blue>255</blue>
+                    </color>
+                   </brush>
+                  </colorrole>
+                 </active>
+                 <inactive>
+                  <colorrole role="WindowText">
+                   <brush brushstyle="SolidPattern">
+                    <color alpha="255">
+                     <red>255</red>
+                     <green>255</green>
+                     <blue>255</blue>
+                    </color>
+                   </brush>
+                  </colorrole>
+                 </inactive>
+                 <disabled>
+                  <colorrole role="WindowText">
+                   <brush brushstyle="SolidPattern">
+                    <color alpha="255">
+                     <red>255</red>
+                     <green>255</green>
+                     <blue>255</blue>
+                    </color>
+                   </brush>
+                  </colorrole>
+                 </disabled>
+                </palette>
+               </property>
+               <property name="font">
+                <font>
+                 <pointsize>16</pointsize>
+                </font>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">border-radius:0.4em;border:1px solid #808080; background:#808080;</string>
+               </property>
+               <property name="text">
+                <string>&lt;pre&gt;00°C / 00°F&lt;/pre&gt;</string>
+               </property>
+               <property name="alignment">
+                <set>Qt::AlignCenter</set>
+               </property>
+              </widget>
+             </item>
+             <item row="3" column="0">
+              <widget class="QLabel" name="label_11">
+               <property name="text">
+                <string>MOSFET Temp.</string>
+               </property>
+              </widget>
+             </item>
+             
+             <item row="5" column="1">
+              <widget class="QLabel" name="readCapAH">
+               <property name="font">
+                <font>
+                 <pointsize>16</pointsize>
+                </font>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">border-radius:0.4em;border:1px solid; background:#000; color:#fff;</string>
+               </property>
+               <property name="text">
+                <string>&lt;pre&gt;0.000 Ah&lt;/pre&gt;</string>
+               </property>
+               <property name="alignment">
+                <set>Qt::AlignCenter</set>
+               </property>
+              </widget>
+             </item>
+             <item row="5" column="0">
+              <widget class="QLabel" name="label_5">
+               <property name="text">
+                <string>Capacity</string>
+               </property>
+              </widget>
+             </item>
+
+             <item row="6" column="0">
+              <widget class="QLabel" name="label_6">
+               <property name="text">
+                <string>Capacity</string>
+               </property>
+              </widget>
+             </item>
+             <item row="6" column="1">
+              <widget class="QLabel" name="readCapWH">
+               <property name="font">
+                <font>
+                 <pointsize>16</pointsize>
+                </font>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">border-radius:0.4em;border:1px solid; background:#000; color:#fff;</string>
+               </property>
+               <property name="text">
+                <string>&lt;pre&gt;0.000 Wh&lt;/pre&gt;</string>
+               </property>
+               <property name="alignment">
+                <set>Qt::AlignCenter</set>
+               </property>
+              </widget>
+             </item>
+
+             <item row="7" column="1">
+              <widget class="QLabel" name="readTime">
+               <property name="font">
+                <font>
+                 <pointsize>16</pointsize>
+                </font>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">border-radius:0.4em;border:1px solid; background:#000; color:#fff;</string>
+               </property>
+               <property name="text">
+                <string>&lt;pre&gt;00:00:00&lt;/pre&gt;</string>
+               </property>
+               <property name="alignment">
+                <set>Qt::AlignCenter</set>
+               </property>
+              </widget>
+             </item>
+             <item row="7" column="0">
+              <widget class="QLabel" name="label_9">
+               <property name="text">
+                <string>Time</string>
+               </property>
+              </widget>
+             </item>
+
+
+
+            </layout>
+           </widget>
+          </item>
+
+          <!-- reset button -->
+          <item>
+           <widget class="QPushButton" name="resetButton">
+            <property name="text">
+             <string>Reset</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+       </layout>
+      </widget>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
