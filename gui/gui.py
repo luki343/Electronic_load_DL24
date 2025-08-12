@@ -72,7 +72,6 @@ class MainWindow(QtWidgets.QMainWindow):
         self.twinaxTemp.tick_params(axis='y', colors='grey')
         self.twinaxTemp.yaxis.tick_left()
 
-        # Nowy twin axis dla Capacity Ah po prawej
         self.twinaxCapAh = self.ax.twinx()
         self.twinaxCapAh.tick_params(axis='y', colors='purple')
         self.twinaxCapAh.spines.right.set_position(("axes", 1.2))
