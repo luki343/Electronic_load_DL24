@@ -67,10 +67,15 @@ class MainWindow(QtWidgets.QMainWindow):
 
         self.twinaxPower = self.ax.twinx()
         self.twinaxPower.tick_params(axis='y', colors='green')
-        
+
         self.twinaxTemp = self.ax.twinx()
         self.twinaxTemp.tick_params(axis='y', colors='grey')
         self.twinaxTemp.yaxis.tick_left()
+
+        # Nowy twin axis dla Capacity Ah po prawej
+        self.twinaxCapAh = self.ax.twinx()
+        self.twinaxCapAh.tick_params(axis='y', colors='purple')
+        self.twinaxCapAh.spines.right.set_position(("axes", 1.2))
 
         toolbar = NavigationToolbar(self.canvas, self)
         layout = QVBoxLayout()
@@ -121,7 +126,7 @@ class MainWindow(QtWidgets.QMainWindow):
             self.readCurrent.setText("<pre>{:5.3f} A</pre>".format(current))
             self.readCapAH.setText("<pre>{:5.3f} Ah</pre>".format(data.lastval('cap_ah')))
             self.readCapWH.setText("<pre>{:5.3f} Wh</pre>".format(data.lastval('cap_wh')))
-            self.readTemp.setText("<pre>" + str(int(data.lastval('temp'))) + "°C / " + str(int(data.lastval('temp') * 1.8 + 32)) + "°F</pre>")
+            self.readTemp.setText("<pre>" + str(int(data.lastval('temp'))) + "°C</pre>")
             self.Wattage.setText("<pre>{:5.3f} W</pre>".format(power))
             self.readTime.setText("<pre>" + data.lastval('time').strftime("%H:%M:%S") + "</pre>")
 
@@ -131,14 +136,13 @@ class MainWindow(QtWidgets.QMainWindow):
             self.twinaxCurrent.cla()
             self.twinaxPower.cla()
             self.twinaxTemp.cla()
-            # print cell label as graph title
+            self.twinaxCapAh.cla()
+
             self.ax.set_title(self.cellLabel.text() + " (" + datetime.today().strftime('%Y-%m-%d') + ")")
-            
+
             # left Y-axis (voltage)
             data.plot(ax=self.ax, x='time', y=['voltage'], color='blue', xlim=xlim)
-            #self.ax.set_ylabel('Voltage, V')
             self.ax.set_ylim(bottom=set_voltage)
-            # add units to y axes
             self.ax.yaxis.set_major_formatter(ticker.FormatStrFormatter('%.1fV'))
 
             # right Y-axis 1 (current)
@@ -167,16 +171,27 @@ class MainWindow(QtWidgets.QMainWindow):
             else:
                 self.twinaxTemp.get_yaxis().set_visible(False)
 
+            # right Y-axis 3 (Capacity Ah)
+            if hasattr(self, 'checkbox_ah') and self.checkbox_ah.isChecked():
+                self.twinaxCapAh.spines.right.set_position(("axes", 1.2))
+                data.plot(ax=self.twinaxCapAh, x='time', y=['cap_ah'], color='purple')
+                self.twinaxCapAh.set_ylim(bottom=0)
+                self.twinaxCapAh.get_legend().remove()
+                self.twinaxCapAh.yaxis.set_major_formatter(ticker.FormatStrFormatter('%.3f Ah'))
+            else:
+                self.twinaxCapAh.get_yaxis().set_visible(False)
+
             # legend
             lines1, labels1 = self.ax.get_legend_handles_labels()
             lines2, labels2 = self.twinaxCurrent.get_legend_handles_labels()
             lines3, labels3 = self.twinaxPower.get_legend_handles_labels()
             lines4, labels4 = self.twinaxTemp.get_legend_handles_labels()
-            self.ax.legend(lines1 + lines2 + lines3 + lines4, labels1 + labels2 + labels3 + labels4, loc='lower left')
+            lines5, labels5 = self.twinaxCapAh.get_legend_handles_labels()
+            self.ax.legend(lines1 + lines2 + lines3 + lines4 + lines5,
+                           labels1 + labels2 + labels3 + labels4 + labels5,
+                           loc='lower left')
 
-            #self.canvas.fig.subplots_adjust(right=1)
-            self.canvas.fig.tight_layout()  # fit graph/canvas/figure into available space nicely
-            
+            self.canvas.fig.tight_layout()
             self.canvas.draw()
 
     def status_update(self, status):
@@ -199,13 +214,12 @@ class MainWindow(QtWidgets.QMainWindow):
         event.accept()
 
     def enabled_changed(self):
-        if not self.programmaticalStateChange: 
+        if not self.programmaticalStateChange:
             value = self.en_checkbox.isChecked()
             self.en_checkbox.clearFocus()
             self.backend.send_command({Instrument.COMMAND_ENABLE: value})
         else:
             self.programmaticalStateChange = False
-
 
     def voltage_changed(self):
         if self.set_voltage.hasFocus():
@@ -235,7 +249,6 @@ class MainWindow(QtWidgets.QMainWindow):
         self.set_timer.clearFocus()
         self.backend.send_command({Instrument.COMMAND_SET_TIMER: value})
 
-
     def reset_dev(self, s):
         self.resetButton.clearFocus()
         self.write_logs()
@@ -250,9 +263,8 @@ class MainWindow(QtWidgets.QMainWindow):
         self.resize(settings.value("MainWindow/size", QSize(1024, 600)))
         self.move(settings.value("MainWindow/pos", QPoint(0, 0)))
         self.cellLabel.setText(settings.value("MainWindow/cellLabel", 'Cell x'))
-        self.checkbox_t.setCheckState(Qt.Checked if settings.value("MainWindow/checkbox_t", True) == 'true'  else Qt.Unchecked)
-        self.checkbox_p.setCheckState(Qt.Checked if settings.value("MainWindow/checkbox_p", True) == 'true'  else Qt.Unchecked)
-
+        self.checkbox_t.setCheckState(Qt.Checked if settings.value("MainWindow/checkbox_t", True) == 'true' else Qt.Unchecked)
+        self.checkbox_p.setCheckState(Qt.Checked if settings.value("MainWindow/checkbox_p", True) == 'true' else Qt.Unchecked)
 
     def write_logs(self):
         if self.logControl.isChecked():
